@@ -1,0 +1,26 @@
+First time:
+- npm install
+
+
+To start the app/site
+
+- npm start
+
+
+To run shop-button.js
+- npm start
+- start selenium standalone server
+- ./node_modules/.bin/selenium-standalone start
+
+
+In another terminal:
+	node shop-button.js
+
+To run regular project:
+- start selenium server
+
+./node_modules/.bin/selenium-standalone start
+./node_modules/.bin/wdio wdio.conf.js
+
+
+
