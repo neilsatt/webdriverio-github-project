@@ -24,3 +24,7 @@ To run regular project:
 
 
 
+Running individual files:
+npm test -- --spec=./test/review.js
+
+
