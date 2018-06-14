@@ -1,11 +1,6 @@
+var notifier = require('node-notifier');
+
 var baseUrl = 'http://www.kevinlamping.com/webdriverio-course-content/';
-
-/* if(process.env.SERVER === "prod"){
-    baseUrl = "";
-} */
-
-var timeout = process.env.DEBUG ? 999999 : 10000;
-
 
 exports.config = {
     
@@ -23,7 +18,7 @@ exports.config = {
     ],
     // Patterns to exclude.
     exclude: [
-        // 'path/to/excluded/files'
+        './test/**/*.page.js'
     ],
     //
     // ============
@@ -139,7 +134,7 @@ exports.config = {
     // See the full list at http://mochajs.org/
     mochaOpts: {
         ui: 'bdd',
-        timeout: timeout
+        timeout: 30000
     },
     //
     // =====
@@ -154,8 +149,12 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: function (config, capabilities) {
+        notifier.notify({
+            title: "WebdriverIO",
+            message: 'Test run started' 
+        })
+    },
     /**
      * Gets executed just before initialising the webdriver session and test framework. It allows you
      * to manipulate configurations depending on the capability or spec.
@@ -210,8 +209,14 @@ exports.config = {
      * Function to be executed after a test (in Mocha/Jasmine) or a step (in Cucumber) ends.
      * @param {Object} test test details
      */
-    // afterTest: function (test) {
-    // },
+    afterTest: function (test) {
+        if(!test.passed){
+            notifier.notify({
+                title: "Test failure!",
+                message: test.parent + ' ' + test.title
+            })
+        }
+    },
     /**
      * Hook that gets executed after the suite has ended
      * @param {Object} suite suite details
@@ -251,6 +256,10 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onComplete: function(exitCode, config, capabilities) {
-    // }
+    onComplete: function(exitCode, config, capabilities) {
+        notifier.notify({
+            title: "WebdriverIO",
+            message: 'Tests finished running.'  
+        })
+    }
 }
